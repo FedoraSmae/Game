@@ -1,7 +1,7 @@
 function love.load()
     sound = {}
-    grassrun = love.audio.newSource("audio/grassrun.mp3", "stream")
-    grasswalk = love.audio.newSource("audio/grassslow.mp3", "stream")
+    sound.grassrun = love.audio.newSource("audio/grassrun.mp3", "stream")
+    sound.grasswalk = love.audio.newSource("audio/grassslow.mp3", "stream")
 
     sprites = {}
     sprites.background = love.graphics.newImage('sprites/background.png')
@@ -12,6 +12,7 @@ function love.load()
     sprites.flowerC = love.graphics.newImage('sprites/FlowerCoolx8.png')
     sprites.bullet = love.graphics.newImage('sprites/bullet.png')
     sprites.tb = love.graphics.newImage('sprites/TB.png')
+    sprites.main = sprites.flower
 
     player = {}
     player.x = love.graphics.getWidth() / 2
@@ -40,25 +41,35 @@ function love.update(dt)
 
     if love.keyboard.isDown("lctrl") and love.keyboard.isDown("d", "a", "w", "s") then
         player.speed = 240
-        love.audio.play(grassrun)
+        love.audio.play(sound.grassrun)
     elseif love.keyboard.isDown("d", "a", "w", "s") then
         player.speed = 120
-        love.audio.stop(grassrun)
-        love.audio.play(grasswalk)
+        love.audio.stop(sound.grassrun)
+        love.audio.play(sound.grasswalk)
     else
         player.speed = 120
-        love.audio.stop(grassrun)
-        love.audio.pause(grasswalk)
+        love.audio.stop(sound.grassrun)
+        love.audio.pause(sound.grasswalk)
     end
+    
 end
 
 function love.draw()
     love.graphics.draw(sprites.background, 0, 0)
 
-    love.graphics.draw(sprites.flower, player.x, player.y, nil, 0.5, 0.5)
-    if love.keyboard.isDown("c") and love.keyboard.isDown("o") then
-        sprites.flower = sprites.flowerC
-    elseif love.keyboard.isDown("c") and love.keyboard.isDown("p") then
-        sprites.flower = love.graphics.newImage('sprites/FlowerFrontx8.png')
+    love.graphics.draw(sprites.main, player.x, player.y, nil, 0.5, 0.5)
+
+    --Character Sprite rotation when walking
+
+    if love.keyboard.isDown("w") then
+        sprites.main = sprites.flowerb
+    elseif love.keyboard.isDown("a") then
+        sprites.main = sprites.flowerl
+    elseif love.keyboard.isDown("d") then
+        sprites.main = sprites.flowerR
+    elseif love.keyboard.isDown("c") and love.keyboard.isDown("o") then
+        sprites.main = sprites.flowerC
+    else
+        sprites.main = sprites.flower
     end
 end
