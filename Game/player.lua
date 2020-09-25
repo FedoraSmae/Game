@@ -14,13 +14,17 @@ player.isMovingup = false
 player.isMovingDown = false
 player.direction = 1
 player.health = saveData.phealth
+player.stamina = saveData.stamina
 
 --checks of the save data doesn't have a value set to it, if not then the health is set to 100
 
 if saveData.phealth == nil then
     player.health = 100
 end
-player.stamina = 100
+
+if saveData.stamina == nil then
+    player.stamina = 100
+end
 
 function playerUpdate(dt)
 
@@ -59,12 +63,16 @@ function playerUpdate(dt)
 
     --Controls the players sprinting, and how fast they can go
 
-    if love.keyboard.isDown('lctrl') and love.keyboard.isDown("d", "a", "w", "s") then
+    if love.keyboard.isDown('lctrl') and love.keyboard.isDown("d", "a", "w", "s") and player.stamina > 0 then
         player.speed = 240
         run = true
-    elseif love.keyboard.isDown("d", "a", "w", "s") then
+        player.stamina = player.stamina - 1
+    elseif love.keyboard.isDown("d", "a", "w", "s") and player.stamina < 100 then
         player.speed = 120
         run = false
+        player.stamina = player.stamina + 0.2
+    elseif player.stamina < 100 then
+        player.stamina = player.stamina + 1
     else
         player.speed = 120
         run = false

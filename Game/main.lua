@@ -17,9 +17,10 @@ function love.load()
     --Saves data for the game, currently saves: Map Position, Player Health
 
     saveData = {}
-    saveData.px = 360
-    saveData.py = 500
+    saveData.px = 5000
+    saveData.py = 5000
     saveData.phealth = 100
+    saveData.stamina = 100
 
     --Checks data.lua for existing saved data
 
@@ -111,7 +112,7 @@ function love.draw()
     cam:attach()
         gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
         gameMap:drawLayer(gameMap.layers["Objects"])
-        --world:draw()
+        world:draw()
         drawPlayer()
     cam:detach()
 
@@ -136,11 +137,11 @@ function love.draw()
         love.graphics.setColor(255, 255, 255)
     love.graphics.pop()
 
-    --[[love.graphics.push()
+    love.graphics.push()
         love.graphics.setColor(0, 255, 0)
         love.graphics.rectangle("fill", love.graphics.getWidth() - 125, love.graphics.getHeight() - 75, 50, player.stamina * -3)
         love.graphics.setColor(255, 255, 255)
-    love.graphics.pop()]]
+    love.graphics.pop()
 
 
 end
