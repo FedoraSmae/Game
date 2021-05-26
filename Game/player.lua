@@ -7,7 +7,7 @@ player:setFixedRotation(true)
 
 --All the player related stats
 
-player.speed = 120
+player.speed = 210
 player.animation = animations.idle
 player.isMovingside = false
 player.isMovingup = false
@@ -18,11 +18,11 @@ player.stamina = saveData.stamina
 
 --checks of the save data doesn't have a value set to it, if not then the health is set to 100
 
-if saveData.phealth == nil then
+if saveData.phealth == nil or saveData.phealth <= 0 then
     player.health = 100
 end
 
-if saveData.stamina == nil then
+if saveData.stamina == nil or saveData.stamina <= 0 then
     player.stamina = 100
 end
 
@@ -59,23 +59,23 @@ function playerUpdate(dt)
         end
     end
 
-    local run = false
+    run = "false"
 
     --Controls the players sprinting, and how fast they can go
 
     if love.keyboard.isDown('lctrl') and love.keyboard.isDown("d", "a", "w", "s") and player.stamina > 0 then
-        player.speed = 240
-        run = true
-        player.stamina = player.stamina - 1
+        run = "true"
+        player.speed = 300
+        player.stamina = player.stamina - 0.2
     elseif love.keyboard.isDown("d", "a", "w", "s") and player.stamina < 100 then
-        player.speed = 120
-        run = false
+        player.speed = 210
+        run = "false"
         player.stamina = player.stamina + 0.2
     elseif player.stamina < 100 then
-        player.stamina = player.stamina + 1
+        player.stamina = player.stamina + 0.5
     else
-        player.speed = 120
-        run = false
+        player.speed = 210
+        run = "false"
     end
 
     --Chooses which animation to display on screen based on which key is pressed and what the player is doing
